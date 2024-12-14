@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Number Generator</title>
+    <title>Sloth Machine</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -39,6 +39,8 @@
             margin-top: 20px;
             font-size: 24px;
             font-weight: bold;
+            max-width: 400px;
+            word-wrap: break-word;
         }
         .number {
             color: #666;
@@ -49,20 +51,28 @@
 </head>
 <body>
     <div class="container">
-        <button onclick="generateNumber()">Generate Random Number</button>
+        <button onclick="generateNumber()">Pull the Sloth Lever</button>
         <div id="result"></div>
         <div id="number" class="number"></div>
     </div>
 
     <script>
+        let rollCount = 0;
+        
         function generateNumber() {
+            rollCount++;
             const random = Math.random();
             const threshold = 1e-5;
             const resultElement = document.getElementById('result');
             const numberElement = document.getElementById('number');
             
-            resultElement.textContent = random < threshold ? 'YES' : 'NO';
-            resultElement.style.color = random < threshold ? '#4CAF50' : '#f44336';
+            if (random < threshold) {
+                resultElement.textContent = 'POGGIES YOU WON A SLOTH';
+                resultElement.style.color = '#4CAF50';
+            } else {
+                resultElement.textContent = `Sadge no sloth in the slothmachine for you (Roll ${rollCount})`;
+                resultElement.style.color = '#f44336';
+            }
             numberElement.textContent = `Random number: ${random}`;
         }
     </script>
