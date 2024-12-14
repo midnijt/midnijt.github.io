@@ -14,6 +14,10 @@
             height: 100vh;
             margin: 0;
             background-color: #f0f2f5;
+            transition: all 0.3s ease;
+        }
+        body.hard-mode {
+            background-color: #111;
         }
         .container {
             text-align: center;
@@ -21,6 +25,14 @@
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            min-width: 300px;
+        }
+        .hard-mode .container {
+            background-color: #222;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            border: 1px solid #333;
         }
         button {
             background-color: #4CAF50;
@@ -30,10 +42,19 @@
             font-size: 16px;
             border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.3s ease;
+            margin: 5px;
         }
         button:hover {
             background-color: #45a049;
+        }
+        .hard-mode button {
+            background-color: #ff1493;
+            box-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
+        }
+        .hard-mode button:hover {
+            background-color: #ff69b4;
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
         }
         #result {
             margin-top: 20px;
@@ -42,15 +63,45 @@
             max-width: 400px;
             word-wrap: break-word;
         }
+        .hard-mode #result {
+            color: #0ff !important;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
         .number {
             color: #666;
             font-size: 14px;
             margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        .hard-mode .number {
+            color: #888;
+        }
+        #hardModeButton {
+            background-color: #ff4444;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 4px 8px;
+            font-size: 10px;
+            margin: 0;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+        #hardModeButton:hover {
+            opacity: 1;
+        }
+        .hard-mode #hardModeButton {
+            background-color: #00ffff;
+            color: #000;
+        }
+        #leverButton {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <button id="hardModeButton" onclick="toggleHardMode()">Hard Mode</button>
         <button id="leverButton" onclick="generateNumber()">Pull the Sloth Lever</button>
         <div id="result"></div>
         <div id="number" class="number"></div>
@@ -58,22 +109,31 @@
 
     <script>
         let rollCount = 0;
+        let hardMode = false;
+        
+        function toggleHardMode() {
+            hardMode = !hardMode;
+            document.body.classList.toggle('hard-mode');
+            const hardModeButton = document.getElementById('hardModeButton');
+            hardModeButton.textContent = hardMode ? 'Easy Mode' : 'Hard Mode';
+            rollCount = 0; // Reset count when switching modes
+        }
         
         function generateNumber() {
             rollCount++;
             const random = Math.random();
-            const threshold = 1e-4;
+            const threshold = hardMode ? 1e-5 : 1e-4;
             const resultElement = document.getElementById('result');
             const numberElement = document.getElementById('number');
             const leverButton = document.getElementById('leverButton');
             
             if (random < threshold) {
                 resultElement.textContent = `POGGIES YOU WON A SLOTH IN THE SLOTHMACHINE (ROLL ${rollCount})`;
-                resultElement.style.color = '#4CAF50';
-                leverButton.style.display = 'none';  // Hide the button
+                resultElement.style.color = hardMode ? '#0ff' : '#4CAF50';
+                leverButton.style.display = 'none';
             } else {
                 resultElement.textContent = `Sadge no sloth in the slothmachine for you (Roll ${rollCount})`;
-                resultElement.style.color = '#f44336';
+                resultElement.style.color = hardMode ? '#ff1493' : '#f44336';
             }
             numberElement.textContent = `Random number: ${random}`;
         }
