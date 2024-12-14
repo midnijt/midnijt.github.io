@@ -51,7 +51,7 @@
 </head>
 <body>
     <div class="container">
-        <button onclick="generateNumber()">Pull the Sloth Lever</button>
+        <button id="leverButton" onclick="generateNumber()">Pull the Sloth Lever</button>
         <div id="result"></div>
         <div id="number" class="number"></div>
     </div>
@@ -65,10 +65,12 @@
             const threshold = 1e-5;
             const resultElement = document.getElementById('result');
             const numberElement = document.getElementById('number');
+            const leverButton = document.getElementById('leverButton');
             
             if (random < threshold) {
-                resultElement.textContent = 'POGGIES YOU WON A SLOTH';
+                resultElement.textContent = `POGGIES YOU WON A SLOTH IN THE SLOTHMACHINE (ROLL ${rollCount})`;
                 resultElement.style.color = '#4CAF50';
+                leverButton.style.display = 'none';  // Hide the button
             } else {
                 resultElement.textContent = `Sadge no sloth in the slothmachine for you (Roll ${rollCount})`;
                 resultElement.style.color = '#f44336';
